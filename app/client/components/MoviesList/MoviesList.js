@@ -1,19 +1,25 @@
 import React from "react";
+import _ from "lodash";
 
 import MovieListItem from '../MovieListItem/MovieListItem';
 
-export default class extends React.Component {
+// @todo replace this with request to backend
+import MoviesJsonData from 'json!../../../static/movies.json';
+
+export default class MovieList extends React.Component {
     render() {
         return (
             <div className="section">
               <div className="row">
                 <ul>
-                  <MovieListItem/>
-                  <MovieListItem/>
-                  <MovieListItem/>
-                  <MovieListItem/>
-                  <MovieListItem/>
-                  <MovieListItem/>
+                  {MoviesJsonData.map((movie) => {
+                    return <MovieListItem
+                      key={_.uniqueId('moveListItem_')}
+                      title={movie.Title}
+                      genre={movie.Genre}
+                      image={movie.Poster}
+                    />
+                  })}
                 </ul>
               </div>
             </div>
