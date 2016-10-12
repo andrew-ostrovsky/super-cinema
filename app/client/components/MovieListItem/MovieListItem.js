@@ -5,14 +5,14 @@ import './movieListItem.less';
 export default class MovieListItem extends React.Component {
     render() {
         return (
-          <li className="moveListItem">
+          <li className="movieListItem">
             <div className="card">
                 <div className="card-image waves-effect waves-block waves-light">
-                  <img className="activator" src={this.props.image}/>
+                  <img className="activator movieListItem__image" src={this.props.image}/>
                 </div>
             </div>
-            <div className="moveListItem__title">{this.props.title}</div>
-            <div className="moveListItem__description">{this.props.genre}</div>
+            <div className="movieListItem__title">{this.props.title}</div>
+            <div className="movieListItem__description">{this.props.genre}</div>
           </li>
         );
     }
