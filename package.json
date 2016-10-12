@@ -4,10 +4,35 @@
   "description": "Example app",
   "main": "app.js",
   "scripts": {
+    "start": "npm run build && npm run start-server",
+    "build": "npm run webpack-client && npm run webpack-server",
+    "start-server": "node ./dist/server.bundle.js",
+    "webpack-client-watch": "webpack --watch",
+    "webpack-client": "webpack",
+    "webpack-server": "webpack --config webpack.config.server.js"
   },
   "keywords": [
     "super-cinema"
   ],
   "author": "Andrejs Ostrovskis",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.11.4",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.11.1",
+    "copy-webpack-plugin": "^3.0.1",
+    "webpack-externals-plugin": "^1.0.0",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "css-loader": "^0.23.1",
+    "style-loader": "^0.13.1",
+    "json-loader": "^0.5.4",
+    "less-loader": "^2.2.3",
+    "webpack": "^1.13.2"
+  },
+  "dependencies": {
+    "express": "^4.14.0",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2"
+  }
 }
