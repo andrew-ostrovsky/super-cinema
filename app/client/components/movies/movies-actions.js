@@ -1,30 +1,36 @@
 import axios from 'axios';
 
 const actions = {
-    REQUEST_MOVIES: "REQUEST_MOVIES",
-    RECEIVE_MOVIES: "RECEIVE_MOVIES",
+    REQUEST_MOVIE_LIST: "REQUEST_MOVIE_LIST",
+    RECEIVE_MOVIE_LIST: "RECEIVE_MOVIE_LIST",
 };
 
-function requestMoviesAction(dispatch) {
-    axios.get("/api/movies")
-        .then((res) => {
-            dispatch(receiveMoviesAction(res.data));
-        });
-
-    return {
-        type: actions.REQUEST_MOVIES,
+function fetchMovies() {
+    return dispatch => {
+        dispatch(requestMovieList());
+        axios.get("/api/movies")
+            .then((res) => {
+                dispatch(receiveMovieList(res.data));
+            });
     };
 }
 
-function receiveMoviesAction(movies) {
+function requestMovieList() {
     return {
-        type: actions.RECEIVE_MOVIES,
+        type: actions.REQUEST_MOVIE_LIST,
+    };
+}
+
+function receiveMovieList(movies) {
+    return {
+        type: actions.RECEIVE_MOVIE_LIST,
         payload: movies
     };
 }
 
 export {
-    requestMoviesAction,
-    receiveMoviesAction,
+    requestMovieList,
+    receiveMovieList,
+    fetchMovies,
     actions
 }

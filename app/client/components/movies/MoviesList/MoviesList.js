@@ -1,35 +1,33 @@
 import React from "react";
 import _ from "lodash";
-import {
-    connect
-} from "react-redux"
+import {connect} from "react-redux";
 
 import MovieListItem from '../MovieListItem/MovieListItem';
-import {requestMoviesAction} from '../movies-actions';
+import {fetchMovies} from '../movies-actions';
 
 export class MovieList extends React.Component {
     constructor(props) {
         super(props);
     }
     componentWillMount() {
-        this.props.requestMovies();
+        this.props.requestMovieList();
     }
 
     render() {
         return (
             <div className="section">
-              <div className="row">
-                <ul>
-                  {this.props.data.map((movie) => {
-                    return <MovieListItem
-                      key={_.uniqueId('moveListItem_')}
-                      title={movie.Title}
-                      genre={movie.Genre}
-                      image={movie.Poster}
-                    />
-                  })}
-                </ul>
-              </div>
+                <div className="row">
+                    <ul>
+                        {this.props.data.map((movie) => {
+                            return <MovieListItem
+                                key={_.uniqueId('moveListItem_')}
+                                id={movie.imdbID}
+                                title={movie.Title}
+                                genre={movie.Genre}
+                                image={movie.Poster}/>
+                        })}
+                    </ul>
+                </div>
             </div>
         );
     }
@@ -38,16 +36,13 @@ export class MovieList extends React.Component {
 function mapStateToProps(state) {
     const componentState = state.movies;
 
-    return {
-        data: componentState.data,
-        isLoading: componentState.isLoading
-    };
+    return {data: componentState.data, isLoading: componentState.isLoading};
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        requestMovies: () => {
-            dispatch(requestMoviesAction(dispatch));
+        requestMovieList: () => {
+            dispatch(fetchMovies());
         }
     };
 }

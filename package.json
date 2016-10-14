@@ -8,6 +8,7 @@
     "build": "npm run webpack-client && npm run webpack-server",
     "start-server": "node ./dist/server.bundle.js",
     "webpack-client-watch": "webpack --watch",
+    "webpack-server-watch": "webpack --watch --config webpack.config.server.js",
     "webpack-client": "webpack",
     "webpack-server": "webpack --config webpack.config.server.js"
   },

@@ -10,8 +10,8 @@ app.use(express.static("dist"));
 
 app.use("/api/movies", moviesRoutes);
 
-app.get(["/"], (req, res) => {
-    res.sendFile(path.join(__dirname, "../../dist/index.html"));
+app.get(["/", "/movie/*"], (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../../dist/index.html"));
 });
 
 console.log(`Server started on port ${port}`);
