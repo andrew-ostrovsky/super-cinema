@@ -23,7 +23,7 @@ export class MovieCard extends React.Component {
             : (
                 <div className="movieCard">
                     <div className="movieCard__poster">
-                        <img src={this.props.movie.Poster}/>
+                        <img src={this.props.movie.Poster !== 'N/A' ? this.props.movie.Poster : '/images/placeholder.png'}/>
                     </div>
                     <div className="movieCard__description">
                         <div className="movieCard__title">{this.props.movie.Title}</div>

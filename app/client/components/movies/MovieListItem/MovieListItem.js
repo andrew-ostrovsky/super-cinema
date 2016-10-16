@@ -10,7 +10,7 @@ export default class MovieListItem extends React.Component {
                 <li className="movieListItem">
                     <div className="card">
                         <div className="card-image">
-                            <img className="movieListItem__image" src={this.props.image}/>
+                            <img className="movieListItem__image" src={this.props.image !== 'N/A' ? this.props.image : '/images/placeholder.png'}/>
                         </div>
                     </div>
                     <div className="movieListItem__title">{this.props.title}</div>

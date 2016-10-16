@@ -5,7 +5,7 @@ export default class AppBar extends React.Component {
     render() {
         return (
             <div className="appBar">
-                <h3>Trending movies</h3>
+                <span className="appBar__label">Trending Movies</span>
             </div>
         );
     }

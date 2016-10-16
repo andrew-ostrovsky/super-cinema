@@ -27,6 +27,7 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin("style.css"),
         new CopyWebpackPlugin([
+            { from: "app/static/images", to: "images" },
             { from: "app/static/index.html" }
         ], {})
     ]
