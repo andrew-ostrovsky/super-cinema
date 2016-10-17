@@ -1,9 +1,10 @@
 import React from "react";
-import './movieCard.less';
-
 import {connect} from "react-redux";
 
+import './movieCard.less';
+
 import {fetchMovie} from './movie-actions';
+import {getMoviePosterOrPlaceholder} from '../../utils/utils';
 
 export class MovieCard extends React.Component {
     constructor(props) {
@@ -23,15 +24,17 @@ export class MovieCard extends React.Component {
             : (
                 <div className="movieCard">
                     <div className="movieCard__poster">
-                        <img src={this.props.movie.Poster !== 'N/A' ? this.props.movie.Poster : '/images/placeholder.png'}/>
+                        <img src={getMoviePosterOrPlaceholder(this.props.movie.Poster)}/>
                     </div>
                     <div className="movieCard__description">
                         <div className="movieCard__title">{this.props.movie.Title}</div>
                         <div>
-                          <span className="movieCard__label">Description</span> - {this.props.movie.Plot}
+                            <span className="movieCard__label">Description</span>
+                            - {this.props.movie.Plot}
                         </div>
                         <div>
-                          <span className="movieCard__label">Cast</span> - {this.props.movie.Actors}
+                            <span className="movieCard__label">Cast</span>
+                            - {this.props.movie.Actors}
                         </div>
                     </div>
                 </div>

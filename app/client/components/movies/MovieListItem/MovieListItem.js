@@ -2,6 +2,7 @@ import React from "react";
 import {Link} from "react-router"
 
 import './movieListItem.less';
+import {getMoviePosterOrPlaceholder} from '../../../utils/utils';
 
 export default class MovieListItem extends React.Component {
     render() {
@@ -10,7 +11,9 @@ export default class MovieListItem extends React.Component {
                 <li className="movieListItem">
                     <div className="card">
                         <div className="card-image">
-                            <img className="movieListItem__image" src={this.props.image !== 'N/A' ? this.props.image : '/images/placeholder.png'}/>
+                            <img
+                                className="movieListItem__image"
+                                src={getMoviePosterOrPlaceholder(this.props.image)}/>
                         </div>
                     </div>
                     <div className="movieListItem__title">{this.props.title}</div>

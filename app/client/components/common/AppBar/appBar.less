@@ -1,12 +1,14 @@
+@import "../../../appStyles.less";
+
 .appBar {
-    height: 80px;
+    height: @appTopHeight;
     margin: 0 auto;
-    width: 80%;
-    padding-left: 40px;
+    width: @containerWidth;
+    padding-left: @appTopPaddingLeft;
 
     &__label {
-        color: white;
-        line-height: 80px;
+        color: @appPrimaryColor;
+        line-height: @appTopHeight;
         vertical-align: middle;
         font-size: 25px;
     }
