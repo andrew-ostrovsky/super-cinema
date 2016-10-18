@@ -1,10 +1,16 @@
 import React from "react";
+import {connect} from "react-redux";
 
-export default class CommentForm extends React.Component {
+import {addComment} from '../comments-actions';
+
+export class CommentForm extends React.Component {
     handleSubmit(event) {
-        // Removed redux action to simplyfy app, currently socket.io send all new messages, still working on that part.
-        this.props.socket.emit('message', this.state.message.substr(0, 140));
+        let message = this.state.message.substr(0, 140);
+        this.props.socket.emit('message', message);
         this.setState({message: ''});
+
+        // @todo get clientName from store
+        this.props.addComment({clientName: 'Anonymous', message});
     }
 
     handleChange(event) {
@@ -21,7 +27,7 @@ export default class CommentForm extends React.Component {
 
     render() {
         return (
-            <form className="movieCard__comments__form">
+            <div className="movieCard__comments__form">
                 <div className="movieCard__comments__fieldset">
                     <textarea
                         onChange={this.handleChange.bind(this)}
@@ -35,7 +41,22 @@ export default class CommentForm extends React.Component {
                     className="btn waves-effect waves-light">
                     Submit
                 </button>
-            </form>
+            </div>
         );
     }
 }
+
+function mapStateToProps(state) {
+    const componentState = state.comments;
+    return {data: componentState.data};
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        addComment: (message) => {
+            dispatch(addComment(message));
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);

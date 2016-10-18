@@ -29,7 +29,6 @@ let messages = [
 io.sockets.on('connection', (client) => {
   client.on('message', (message) => {
     client.broadcast.emit('message', {clientName: client.nickname, message});
-    client.emit('message', {clientName: client.nickname, message});
     storeMessage(client.nickname, message);
   });
 

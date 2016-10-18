@@ -3,17 +3,17 @@ import {connect} from "react-redux";
 import _ from 'lodash';
 
 import Comment from '../Comment/Comment';
-import {receiveComment} from '../comments-actions';
+import {receiveComment, clientJoins} from '../comments-actions';
 
 export class CommentList extends React.Component {
     componentWillMount() {
-
       this.props.socket.on('connect', () => {
         this.props.socket.emit('join', 'Anonymous');
+        this.props.clientJoins();
 
         this.props.socket.on('message', (message) => {
           this.props.receiveComment(message);
-        })
+        });
       });
     }
 
@@ -43,6 +43,9 @@ function mapDispatchToProps(dispatch) {
     return {
         receiveComment: (message) => {
             dispatch(receiveComment(message));
+        },
+        clientJoins: () => {
+            dispatch(clientJoins());
         }
     };
 }
