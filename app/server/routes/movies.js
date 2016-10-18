@@ -1,21 +1,22 @@
 import express from "express"
-// @todo replace with mongoDB data
-import MoviesJsonData from '!json!../../static/movies.json';
+import {
+    Movie
+} from '../schemas/movies';
 
 let router = express.Router();
 
 router.route("/")
     .get(function(req, res) {
-        res.json(MoviesJsonData);
+        Movie.find((err, movieList) => {
+            res.json(movieList);
+        });
     });
 
 router.route('/:movieId')
     .get(function(req, res) {
-        const movie = MoviesJsonData.find((movie) => {
-            return movie.imdbID === req.params.movieId;
+        Movie.findOne({imdbID: req.params.movieId},(err, movie) => {
+            res.json(movie);
         });
-        // @todo check on empty movie otherwise redirect to 404;
-        res.json(movie);
     });
 
 export default router;

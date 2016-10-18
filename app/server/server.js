@@ -1,78 +1,36 @@
 import express from "express";
 import path from "path";
-import _ from 'lodash';
+import mongoose from "mongoose";
 
-import moviesRoutes from "./routes/movies"
+import moviesRoutes from "./routes/movies";
+import {
+    initSocketConnection
+} from "./socket";
 
-const app = express();
-const port = 8080;
+mongoose.connect("mongodb://localhost");
 
-const server = require('http').createServer(app);
-const io = require('socket.io').listen(server);
+const db = mongoose.connection;
 
-app.use(express.static("dist"));
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+    console.log("We're connected!");
+    const app = express();
+    const port = 8080;
 
-app.use("/api/movies", moviesRoutes);
+    const server = require('http').createServer(app);
+    const io = require('socket.io').listen(server);
 
-app.get(["/", "/movie/*"], (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../../dist/index.html"));
-});
+    app.use(express.static("dist"));
 
-// @todo implement mongoDB store later
-let messages = [];
+    app.use("/api/movies", moviesRoutes);
 
-io.sockets.on('connection', (client) => {
-    client.on('join', (connectionData) => {
-        client.nickname = connectionData.name;
-        client.join(connectionData.room);
-
-        // send all exising messages to new joiner
-        sendMessagesOnNewConnection(client, connectionData.room);
-
-        client.on('message', (message) => {
-            client.broadcast.in(connectionData.room).emit(
-                'message', {
-                    clientName: client.nickname,
-                    message
-                });
-            storeMessage(client.nickname, message,
-                connectionData.room);
-        });
+    app.get(["/", "/movie/*"], (req, res) => {
+        res.sendFile(path.resolve(__dirname,
+            "../../dist/index.html"));
     });
+
+    initSocketConnection(io);
+
+    console.log(`Server started on port ${port}`);
+    server.listen(port);
 });
-
-console.log(`Server started on port ${port}`);
-server.listen(port);
-
-function sendMessagesOnNewConnection(client, room) {
-    let roomMessages = messages[room];
-
-    if (_.isArray(roomMessages)) {
-        roomMessages.forEach((messageData) => {
-            client.emit('message', {
-                clientName: messageData.name,
-                message: messageData.message
-            });
-        });
-    }
-}
-
-// @todo implement mongoDB store later
-function storeMessage(name, message, room) {
-    const messageData = {
-        name,
-        message
-    };
-
-    let roomMessages = messages[room];
-
-    if (_.isArray(roomMessages)) {
-        roomMessages.push(messageData);
-        if (roomMessages.length > 10) {
-            roomMessages.shift();
-        }
-    } else {
-        messages[room] = [messageData];
-    }
-
-}
