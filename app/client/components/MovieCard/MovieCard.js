@@ -7,17 +7,25 @@ import {fetchMovie} from './movie-actions';
 import {getMoviePosterOrPlaceholder} from '../../utils/utils';
 import CommentBox from '../comments/CommentBox/CommentBox';
 
+// @todo find better implementation?
+let firstRender = true;
+
 export class MovieCard extends React.Component {
     constructor(props) {
         super(props);
+        firstRender = true;
     }
 
     componentWillMount() {
         this.props.requestMovie(this.props.id);
     }
 
+    componentDidMount(){
+      firstRender = false;
+    }
+
     isLoading() {
-        return this.props.isLoading || !this.props.movie;
+        return this.props.isLoading || !this.props.movie || firstRender;
     }
 
     render() {
@@ -41,7 +49,7 @@ export class MovieCard extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <CommentBox/>
+                    <CommentBox movieId={this.props.id}/>
                 </div>
             );
     }

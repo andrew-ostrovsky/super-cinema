@@ -7,29 +7,37 @@ import {receiveComment, clientJoins} from '../comments-actions';
 
 export class CommentList extends React.Component {
     componentWillMount() {
-      this.props.socket.on('connect', () => {
-        this.props.socket.emit('join', 'Anonymous');
-        this.props.clientJoins();
+        this.props.socket.on('connect', () => {
+            this.inializeNewSocketConnection();
 
-        this.props.socket.on('message', (message) => {
-          this.props.receiveComment(message);
+            this.props.socket.on('message', (message) => {
+                this.props.receiveComment(message);
+            });
         });
-      });
+    }
+
+    inializeNewSocketConnection() {
+        // @todo receive userName from store
+        this.props.socket.emit('join', {
+            name: 'Anonymous',
+            room: this.props.movieId
+        });
+        this.props.clientJoins();
     }
 
     render() {
         return (
-          <div>
-            <div>Comments</div>
-            <div className="movieCard_comments__list">
-              {this.props.data.map((comment) => {
-                  return <Comment
-                      key={_.uniqueId('comment_')}
-                      author={comment.clientName}
-                      message={comment.message}/>
-              })}
+            <div>
+                <div>Comments</div>
+                <div className="movieCard_comments__list">
+                    {this.props.data.map((comment) => {
+                        return <Comment
+                            key={_.uniqueId('comment_')}
+                            author={comment.clientName}
+                            message={comment.message}/>
+                    })}
+                </div>
             </div>
-          </div>
         );
     }
 }
