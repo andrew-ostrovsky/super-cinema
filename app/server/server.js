@@ -25,6 +25,8 @@ db.once('open', function() {
     app.use(express.static("dist"));
 
     app.set('trust proxy', 1) // trust first proxy
+
+    // @todo Store session in mongoDB
     app.use(session({
       secret: 'keyboard cat',
       resave: false,
