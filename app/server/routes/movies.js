@@ -1,7 +1,7 @@
 import express from "express"
 import {
     Movie
-} from '../schemas/movies';
+} from '../schemas/movie';
 
 let router = express.Router();
 
