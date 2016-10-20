@@ -26,14 +26,24 @@
   &__form {
     margin:0 30px;
 
-    &__button {
-      margin: 0 10px;
+    &__error{
+      color: @appPrimaryColor;
+      background-color: #E53935;
+      padding: 10px;
+    }
 
-      &__register {
-        background-color: #F44336;
+    &__controls {
+      margin-bottom: 50px;
 
-        &:hover {
-          background-color: #E53935;
+      &__button {
+        margin: 0 10px;
+
+        &__register {
+          background-color: #F44336;
+
+          &:hover {
+            background-color: #E53935;
+          }
         }
       }
     }

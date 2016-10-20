@@ -7,7 +7,7 @@ const actions = {
 
 function fetchMovie(id) {
     return dispatch => {
-        dispatch(requestMovie(id));
+        dispatch(requestMovie());
         axios.get(`/api/movies/${id}`)
             .then((res) => {
                 dispatch(receiveMovie(res.data));

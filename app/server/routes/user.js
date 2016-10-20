@@ -19,14 +19,14 @@ router.route("/register")
             username: req.body.username
         }, (dbError, user) => {
             if (dbError) {
-                return handleError(res, dbError);
+                return handleError(res, 500, dbError);
             }
 
             const username = req.body.username;
 
             // if user already exists return send error response
             if (user) {
-                return handleError(res,
+                return handleError(res, 401,
                     `User with username "${username}" already exists`
                 );
             }
@@ -48,12 +48,11 @@ router.route("/register")
 
             newUser.save((err, newUser) => {
                 if (err) {
-                    handleError(res, err);
-                    res.sendStatus(500);
+                    handleError(res, 500, 'Internal server error');
                 } else {
                     // this will create new session / add set cookies header in response
-                    req.session.username = User.username;
-                    res.sendStatus(200);
+                    req.session.username = newUser.username;
+                    res.status(200).send({username: newUser.username});
                 }
             });
 
@@ -66,11 +65,11 @@ router.route("/login")
             username: req.body.username
         }, (dbError, user) => {
             if (dbError) {
-                return handleError(res, dbError);
+                return handleError(res, 500, dbError);
             }
 
             if (!user) {
-                return handleError(res,
+                return handleError(res, 401,
                     `User with username "${req.body.username}" not found`
                 );
             }
@@ -83,20 +82,20 @@ router.route("/login")
             if (user.password === encyptedPassword) {
                 // this will create new session / add set cookies header in response
                 req.session.username = user.username;
-                res.sendStatus(200);
+                res.status(200).send({username: user.username});
 
             } else {
-                return handleError(res, 'Bad credentials');
+                return handleError(res, 401, 'Bad credentials');
             }
 
         });
     });
 
-function handleError(res, message) {
-    console.log(`Error happend: ${message}`);
+function handleError(res, status, message) {
+    let errorPhrase = `Error happend: ${message}`;
+    console.log(errorPhrase);
 
-    // @todo Send proper status, send error message
-    res.sendStatus(401);
+    res.status(401).send(errorPhrase);
 };
 
 function genRandomString(length) {
