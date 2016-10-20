@@ -4,22 +4,26 @@ import {
 import _ from 'lodash';
 
 const initState = {
-  data: null,
-  isLoading: false,
+    data: {},
+    isLoading: false,
 };
 
 export default function(state = initState, action) {
     switch (action.type) {
         case actions.REQUEST_MOVIE:
-            const newState = _.cloneDeep(state);
-            newState.isLoading = true;
-            return Object.assign({}, state, newState);
+            const requestMovieState = _.cloneDeep(state);
+
+            requestMovieState.isLoading = true;
+            return Object.assign({}, state, requestMovieState);
 
         case actions.RECEIVE_MOVIE:
-            return Object.assign({}, state, {
-                    isLoading: false,
-                    data: action.payload
-            });
+            const movie = action.payload;
+            const receiveMovieState = _.cloneDeep(state);
+
+            receiveMovieState.isLoading = false;
+            receiveMovieState.data[movie.imdbID] = movie;
+
+            return Object.assign({}, state, receiveMovieState);
 
         default:
             return state;
