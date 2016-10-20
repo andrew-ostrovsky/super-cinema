@@ -1,13 +1,14 @@
 import React from "react";
 import {connect} from "react-redux";
 import Login from "../Login/Login";
+import {checkIfUserIsLoggedIn} from "../UserPanel/user-actions";
 
 import './userPanel.less';
 
 export class UserPanel extends React.Component {
     constructor(props) {
       super(props);
-      //@todo login here
+      this.props.checkIfUserIsLoggedIn();
     }
     renderUserInfo() {
         return (
@@ -37,4 +38,12 @@ function mapStateToProps(state) {
     return {user: componentState.data, errorMessage: componentState.errorMessage, isLoading: componentState.isLoading};
 }
 
-export default connect(mapStateToProps)(UserPanel);
+function mapDispatchToProps(dispatch) {
+    return {
+        checkIfUserIsLoggedIn: () => {
+            return dispatch(checkIfUserIsLoggedIn());
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserPanel);

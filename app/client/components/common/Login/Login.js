@@ -105,10 +105,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        registerUser: (userData, successCallback) => {
+        registerUser: (userData) => {
             return dispatch(registerUser(userData));
         },
-        loginUser: (userData, successCallback) => {
+        loginUser: (userData) => {
             return dispatch(loginUser(userData));
         }
     }

@@ -9,6 +9,14 @@ const actions = {
     ERROR_ON_LOGIN_USER: "ERROR_ON_LOGIN_USER",
 };
 
+function checkIfUserIsLoggedIn() {
+    return dispatch => {
+        axios.post("/api/user/relogin").then((res) => {
+            dispatch(receiveLoginUser(res.data));
+        });
+    };
+}
+
 function loginUser(userData) {
     return dispatch => {
         dispatch(requestRegisterUser());
@@ -90,6 +98,7 @@ function receiveRegisterUser(userData) {
 export {
     registerUser,
     loginUser,
+    checkIfUserIsLoggedIn,
     requestRegisterUser,
     errorOnRegisterUser,
     receiveRegisterUser,
