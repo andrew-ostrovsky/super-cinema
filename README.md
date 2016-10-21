@@ -12,6 +12,17 @@ Movie catalog app example, built with:
 * [MongoDB](https://docs.mongodb.com/getting-started/shell/introduction/)
 * [mongoose](https://github.com/Automattic/mongoose) Elegant mongodb object modeling for node.js
 
+## Features
+
+- React as front-end framework
+- Redux for application data storage
+- ExpressJS backend server
+- MongoDB as Database
+- Movie catalog
+- Movie description page
+- Live Comments (Websockets) from annonymous and registered users
+- Login and register functionality (implemented sessions)
+
 ## Getting Started
 
 Clone this repo using:
