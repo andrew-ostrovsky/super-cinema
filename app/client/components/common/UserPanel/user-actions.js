@@ -7,6 +7,7 @@ const actions = {
     REQUEST_LOGIN_USER: "REQUEST_LOGIN_USER",
     RECEIVE_LOGIN_USER: "RECEIVE_LOGIN_USER",
     ERROR_ON_LOGIN_USER: "ERROR_ON_LOGIN_USER",
+    LOGOUT_USER: "LOGOUT_USER",
 };
 
 function checkIfUserIsLoggedIn() {
@@ -15,6 +16,14 @@ function checkIfUserIsLoggedIn() {
             dispatch(receiveLoginUser(res.data));
         });
     };
+}
+
+function logout() {
+  return dispatch => {
+      axios.post("/api/user/logout").then((res) => {
+          dispatch(logoutUser());
+      });
+  };
 }
 
 function loginUser(userData) {
@@ -33,6 +42,12 @@ function loginUser(userData) {
                 dispatch(errorOnLoginUser(error.message));
             }
         });
+    };
+}
+
+function logoutUser() {
+    return {
+        type: actions.LOGOUT_USER,
     };
 }
 
@@ -98,6 +113,7 @@ function receiveRegisterUser(userData) {
 export {
     registerUser,
     loginUser,
+    logout,
     checkIfUserIsLoggedIn,
     requestRegisterUser,
     errorOnRegisterUser,

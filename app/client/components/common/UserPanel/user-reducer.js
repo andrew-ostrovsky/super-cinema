@@ -51,6 +51,12 @@ export default function(state = initState, action) {
                 errorMessage: action.payload
             });
 
+        case actions.LOGOUT_USER:
+            return Object.assign({}, state, {
+                data: {},
+                isLoading: false,
+                errorMessage: null
+            });
         default:
             return state;
     }

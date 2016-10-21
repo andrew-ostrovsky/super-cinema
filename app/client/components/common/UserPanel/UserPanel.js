@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import Login from "../Login/Login";
-import {checkIfUserIsLoggedIn} from "../UserPanel/user-actions";
+import {checkIfUserIsLoggedIn, logout} from "../UserPanel/user-actions";
 
 import './userPanel.less';
 
@@ -15,6 +15,7 @@ export class UserPanel extends React.Component {
             <div>
                 <img src="/images/anonymous-icon.jpg" className="UserPanel__icon"/>
                 <span className="UserPanel__greeting">Hi, {this.props.user.username}</span>
+                <span><i onClick={() => {this.props.logout();}}className="material-icons UserPanel__logout">input</i></span>
             </div>
         );
     }
@@ -42,6 +43,9 @@ function mapDispatchToProps(dispatch) {
     return {
         checkIfUserIsLoggedIn: () => {
             return dispatch(checkIfUserIsLoggedIn());
+        },
+        logout: () => {
+            return dispatch(logout());
         }
     }
 }
