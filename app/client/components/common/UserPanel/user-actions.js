@@ -8,6 +8,7 @@ const actions = {
     RECEIVE_LOGIN_USER: "RECEIVE_LOGIN_USER",
     ERROR_ON_LOGIN_USER: "ERROR_ON_LOGIN_USER",
     LOGOUT_USER: "LOGOUT_USER",
+    RESET_FORM_ERRORS: "RESET_FORM_ERRORS",
 };
 
 function checkIfUserIsLoggedIn() {
@@ -17,6 +18,12 @@ function checkIfUserIsLoggedIn() {
             dispatch(receiveLoginUser(res.data));
         });
     };
+}
+
+function resetFormErrors() {
+  return {
+      type: actions.RESET_FORM_ERRORS,
+  };
 }
 
 function logout() {
@@ -115,6 +122,7 @@ export {
     registerUser,
     loginUser,
     logout,
+    resetFormErrors,
     checkIfUserIsLoggedIn,
     requestRegisterUser,
     errorOnRegisterUser,

@@ -51,6 +51,12 @@ export default function(state = initState, action) {
                 errorMessage: action.payload
             });
 
+        case actions.RESET_FORM_ERRORS:
+            const resetFormErrorsState = _.cloneDeep(state);
+
+            resetFormErrorsState.errorMessage = null;
+            return Object.assign({}, state, resetFormErrorsState);
+
         case actions.LOGOUT_USER:
             return Object.assign({}, state, {
                 data: {},

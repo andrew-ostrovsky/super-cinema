@@ -2,7 +2,7 @@ import React from "react";
 import SkyLight from 'react-skylight';
 import axios from 'axios';
 import {connect} from "react-redux";
-import {registerUser, loginUser} from "../UserPanel/user-actions";
+import {registerUser, loginUser, resetFormErrors} from "../UserPanel/user-actions";
 
 export class Login extends React.Component {
     constructor(props) {
@@ -11,7 +11,6 @@ export class Login extends React.Component {
         this.state = {
             username: "",
             password: "",
-            errorMessage: null
         };
     }
 
@@ -26,11 +25,11 @@ export class Login extends React.Component {
     }
 
     renderError() {
-        return this.state.errorMessage
+        return this.props.errorMessage
             ? (
                 <div className="row">
                     <div className="UserPanel__form__error">
-                        {this.state.errorMessage}
+                        {this.props.errorMessage}
                     </div>
                 </div>
             )
@@ -39,13 +38,7 @@ export class Login extends React.Component {
 
     onOpenModalButtonClick() {
       this.refs.customDialog.show();
-      this.setState({errorMessage: null});
-    }
-
-    componentWillReceiveProps(nextProps){
-      if (nextProps.errorMessage !== undefined){
-        this.setState({errorMessage: nextProps.errorMessage});
-      }
+      this.props.resetFormErrors();
     }
 
     render() {
@@ -114,6 +107,9 @@ function mapDispatchToProps(dispatch) {
         },
         loginUser: (userData) => {
             return dispatch(loginUser(userData));
+        },
+        resetFormErrors: () => {
+          return dispatch(resetFormErrors());
         }
     }
 }
