@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import mongoose from "mongoose";
 import session from "express-session";
+import sharedSession from "express-socket.io-session";
 
 import moviesRoutes from "./routes/movies";
 import userRoutes from "./routes/user";
@@ -26,12 +27,19 @@ db.once('open', function() {
 
     app.set('trust proxy', 1) // trust first proxy
 
-    // @todo Store session in mongoDB
-    app.use(session({
+    let userSession = session({
       secret: 'keyboard cat',
-      resave: false,
-      saveUninitialized: false
-    }))
+      resave: true,
+      saveUninitialized: true
+    });
+
+    // @todo Store session in mongoDB
+    app.use(userSession);
+
+    // Share express and socket.io user session
+    io.use(sharedSession(userSession, {
+        autoSave:true
+    }));
 
     app.use("/api/movies", moviesRoutes);
     app.use("/api/user", userRoutes);

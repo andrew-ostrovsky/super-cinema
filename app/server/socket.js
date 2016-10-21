@@ -1,10 +1,11 @@
 import _ from 'lodash';
-import { Comment } from "./schemas/comment";
+import {
+    Comment
+} from "./schemas/comment";
 
 export function initSocketConnection(io) {
     io.sockets.on('connection', (client) => {
         client.on('join', (connectionData) => {
-            client.nickname = connectionData.name;
             client.join(connectionData.room);
 
             // send all exising messages to new joiner
@@ -12,18 +13,33 @@ export function initSocketConnection(io) {
                 connectionData.room);
 
             client.on('message', (message) => {
-                client.broadcast.in(connectionData
-                    .room).emit(
-                    'message', {
-                        clientName: client.nickname,
-                        message
+                client.handshake.session.reload(
+                    function(err) {
+                        // this will give you the update session info
+
+                        let clientName =
+                            getClientName(client.handshake
+                                .session);
+
+                        client.broadcast.in(
+                            connectionData
+                            .room).emit(
+                            'message', {
+                                clientName: clientName,
+                                message
+                            });
+                        storeMessage(clientName,
+                            message,
+                            connectionData.room
+                        );
                     });
-                storeMessage(client.nickname,
-                    message,
-                    connectionData.room);
             });
         });
     });
+}
+
+function getClientName(session) {
+    return session && session.username ? session.username : 'Anonymous';
 }
 
 function sendMessagesOnNewConnection(client, room) {

@@ -9,8 +9,7 @@ export class CommentForm extends React.Component {
         this.props.socket.emit('message', message);
         this.setState({message: ''});
 
-        // @todo get clientName from store
-        this.props.addComment({clientName: 'Anonymous', message});
+        this.props.addComment({clientName: this.props.username ? this.props.username : 'Anonymous', message});
     }
 
     handleChange(event) {
@@ -48,7 +47,7 @@ export class CommentForm extends React.Component {
 
 function mapStateToProps(state) {
     const componentState = state.comments;
-    return {data: componentState.data};
+    return {data: componentState.data, username: state.user.data.username};
 }
 
 function mapDispatchToProps(dispatch) {

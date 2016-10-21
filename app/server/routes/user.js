@@ -13,7 +13,8 @@ router.use(bodyParser.json());
 router.route("/logout")
     .post(function(req, res) {
         if (req.session && req.session.username) {
-            req.session.destroy();
+            delete req.session.username;
+            req.session.save();
             res.sendStatus(200);
         } else {
             res.sendStatus(401);
@@ -119,6 +120,7 @@ router.route("/login")
 function successLoginAction(req, res, user) {
     // this will create new session / add set cookies header in response
     req.session.username = user.username;
+
     res.status(200).send({
         username: user.username
     });
