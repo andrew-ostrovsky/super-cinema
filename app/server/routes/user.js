@@ -55,6 +55,14 @@ router.route("/register")
 
             const username = req.body.username;
 
+            if (validateFieldLengthError(username)) {
+                return sendFieldLengthError(res, 'Username');
+            }
+
+            if (validateFieldLengthError(req.body.password)) {
+                return sendFieldLengthError(res, 'Password');
+            }
+
             // if user already exists return send error response
             if (user) {
                 return handleError(res, 401,
@@ -66,7 +74,6 @@ router.route("/register")
             const salt = genRandomString(10);
 
             // encryptPassword
-
             const password = encryptPassword(req.body.password,
                 salt);
 
@@ -98,6 +105,14 @@ router.route("/login")
                 return handleError(res, 500, dbError);
             }
 
+            if (validateFieldLengthError(req.body.username)) {
+                return sendFieldLengthError(res, 'Username');
+            }
+
+            if (validateFieldLengthError(req.body.password)) {
+                return sendFieldLengthError(res, 'Password');
+            }
+
             if (!user) {
                 return handleError(res, 401,
                     `User with username "${req.body.username}" not found`
@@ -116,6 +131,20 @@ router.route("/login")
 
         });
     });
+
+function sendFieldLengthError(res, fieldName) {
+    return handleError(res, 400,
+        `${fieldName} field is required and must be of length 3 to 12`
+    );
+}
+
+function validateFieldLengthError(field) {
+    if (field.length < 3 || field.length > 11) {
+        return true;
+    }
+
+    return false;
+}
 
 function successLoginAction(req, res, user) {
     // this will create new session / add set cookies header in response

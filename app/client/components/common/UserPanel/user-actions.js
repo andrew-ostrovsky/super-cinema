@@ -12,6 +12,7 @@ const actions = {
 
 function checkIfUserIsLoggedIn() {
     return dispatch => {
+        dispatch(requestLoginUser());
         axios.post("/api/user/relogin").then((res) => {
             dispatch(receiveLoginUser(res.data));
         });
@@ -28,7 +29,7 @@ function logout() {
 
 function loginUser(userData) {
     return dispatch => {
-        dispatch(requestRegisterUser());
+        dispatch(requestLoginUser());
 
         axios.post("/api/user/login", {
             username: userData.username,

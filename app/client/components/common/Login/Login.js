@@ -10,7 +10,8 @@ export class Login extends React.Component {
 
         this.state = {
             username: "",
-            password: ""
+            password: "",
+            errorMessage: null
         };
     }
 
@@ -19,18 +20,17 @@ export class Login extends React.Component {
         this.props.loginUser({username: this.state.username, password: this.state.password});
     }
 
-    // @todo change with form submit
     register(event) {
         event.preventDefault();
         this.props.registerUser({username: this.state.username, password: this.state.password});
     }
 
     renderError() {
-        return this.props.errorMessage
+        return this.state.errorMessage
             ? (
                 <div className="row">
                     <div className="UserPanel__form__error">
-                        {this.props.errorMessage}
+                        {this.state.errorMessage}
                     </div>
                 </div>
             )
@@ -38,13 +38,17 @@ export class Login extends React.Component {
     }
 
     onOpenModalButtonClick() {
-      // @todo state should change props?
-      this.setState({errorMessage: null});
       this.refs.customDialog.show();
+      this.setState({errorMessage: null});
+    }
+
+    componentWillReceiveProps(nextProps){
+      if (nextProps.errorMessage !== undefined){
+        this.setState({errorMessage: nextProps.errorMessage});
+      }
     }
 
     render() {
-        // @todo move UserPanel form into separate component
         return (
           <div>
               <button

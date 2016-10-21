@@ -17,9 +17,7 @@ export class CommentList extends React.Component {
     }
 
     inializeNewSocketConnection() {
-        // @todo receive userName from store
         this.props.socket.emit('join', {
-            name: 'Anonymous',
             room: this.props.movieId
         });
         this.props.clientJoins();

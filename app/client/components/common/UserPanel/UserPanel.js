@@ -7,15 +7,20 @@ import './userPanel.less';
 
 export class UserPanel extends React.Component {
     constructor(props) {
-      super(props);
-      this.props.checkIfUserIsLoggedIn();
+        super(props);
+        this.props.checkIfUserIsLoggedIn();
     }
     renderUserInfo() {
         return (
             <div>
                 <img src="/images/anonymous-icon.jpg" className="UserPanel__icon"/>
                 <span className="UserPanel__greeting">Hi, {this.props.user.username}</span>
-                <span><i onClick={() => {this.props.logout();}}className="material-icons UserPanel__logout">input</i></span>
+                <span>
+                    <i
+                        onClick={() => {
+                        this.props.logout();
+                    }}className="material-icons UserPanel__logout">input</i>
+                </span>
             </div>
         );
     }

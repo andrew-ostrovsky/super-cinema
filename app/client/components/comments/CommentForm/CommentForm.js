@@ -5,6 +5,7 @@ import {addComment} from '../comments-actions';
 
 export class CommentForm extends React.Component {
     handleSubmit(event) {
+        event.preventDefault();
         let message = this.state.message.substr(0, 140);
         this.props.socket.emit('message', message);
         this.setState({message: ''});
@@ -26,7 +27,7 @@ export class CommentForm extends React.Component {
 
     render() {
         return (
-            <div className="movieCard__comments__form">
+            <form className="movieCard__comments__form">
                 <div className="movieCard__comments__fieldset">
                     <textarea
                         onChange={this.handleChange.bind(this)}
@@ -40,7 +41,7 @@ export class CommentForm extends React.Component {
                     className="btn waves-effect waves-light">
                     Submit
                 </button>
-            </div>
+            </form>
         );
     }
 }
